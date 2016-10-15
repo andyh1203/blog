@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="text-center">Blog Away!</h1>
+            </div>
+        </div>
+    {% for blog_post in blog_posts %}
+        <div class="row">
+            <div class="col-md-9">
+                <a href="{{ url_for('blog_post', blog_id=blog_post.key().id()) }}"><h2 class="text-left">{{ blog_post.subject }}</h2></a>
+            </div>
+            <div class=".col-md-3">
+                {% if user.username == blog_post.author %}
+                <a href="{{ url_for('editpost', blog_id=blog_post.key().id()) }}"><i class="fa fa-pencil-square-o fa-2x pull-right" aria-hidden="true"></i></a>
+                <a href="{{ url_for('deletepost', blog_id=blog_post.key().id()) }}"><i class="fa fa-trash-o fa-2x pull-right" aria-hidden="true"></i></a>
+                {% endif %}
+            </div>
+        </div>
+        {% if blog_post.author %}
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-left">by {{ blog_post.author }}</h4>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-left">Posted on {{ blog_post.created.strftime('%B %d %Y at %X') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-left">{{ blog_post.blog_content|safe }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            {% if user.username != blog_post.author %}
+                <a href="{{ url_for('likepost', blog_id=blog_post.key().id()) }}"><i class="fa fa-thumbs-o-up pull-right" aria-hidden="true">{{ blog_post.likes }}</i></a>
+            {% else %}
+                <i class="fa fa-thumbs-o-up pull-right" aria-hidden="true">{{ blog_post.likes }}</i>
+            {% endif %}
+            </div>
+        </div>
+        <hr>
+
+    {% endfor %}
+{% endblock %}

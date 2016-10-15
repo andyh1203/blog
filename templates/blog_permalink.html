@@ -1,0 +1,28 @@
+ {% extends "base.html" %}
+
+ {% block content %}
+<div class="container">
+ <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-left">{{ b.subject }}</h2>
+            </div>
+        </div>
+        {% if b.author %}
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-left">by {{ b.author }}</h4>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-left">Posted on {{ b.created.strftime('%B %d %Y at %X') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-left">{{ b.blog_content|safe }}</p>
+            </div>
+        </div>
+</div>
+{% endblock %}
